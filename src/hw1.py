@@ -22,10 +22,6 @@ from collections import Counter
 
 
 def major_and_minor_elem(inp: List) -> Tuple[int, int]:
-    mostAndLess = []
     most = Counter(inp).most_common()[0][0]
     less = Counter(inp).most_common()[-1][0]
-
-    mostAndLess.append(most)
-    mostAndLess.append(less)
-    return tuple(mostAndLess)
+    return most, less
