@@ -28,6 +28,5 @@ def transform(legacy_data: Dict[int, List[str]]) -> Dict[str, int]:
     new_dict = dict()
     for i in legacy_data:
         for k in legacy_data.get(i):
-            new_dict.update({k: i})
-    low_dict = {k.lower(): new_dict[k] for k in new_dict}
-    return low_dict
+            new_dict.update({k.lower(): i})
+    return new_dict
