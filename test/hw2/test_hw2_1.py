@@ -1,6 +1,6 @@
 import pytest
 
-from src.hw1 import major_and_minor_elem
+from src.hw2.hw2_1 import major_and_minor_elem
 
 LISTS = [
     ([2, 2, 1, 1, 1, 2, 2], (2, 1)), 

@@ -1,6 +1,6 @@
 import pytest
 
-from src.hw2 import transform
+from src.hw2.hw2_2 import transform
 
 DATA = [
     ({}, {}),
