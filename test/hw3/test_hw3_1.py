@@ -34,6 +34,7 @@ def test_check_data(file_path):
             assert line.rsplit(" ", 1)[0] in data
 
     assert i == len(data) - 1
+    os.remove(os.path.abspath(result_path))
 
 
 def test_check_data_real_file():

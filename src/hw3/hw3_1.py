@@ -1,3 +1,5 @@
+import os
+
 """
 check_data function takes two parameters - path to a file and a list of functions (validators).
 You should:
@@ -28,16 +30,41 @@ output lines:
 foo@example.com 729.83 EUR accountName 2021-01:0 validate_date
 bar@example.com 729.83 accountName 2021-01-02 validate_line
 """
-from typing import Callable, Iterable
+from typing import Callable, Iterable, List
 
 
 def validate_line(line: str) -> bool:
-    ...
+    if len(line.split()) != 5:
+        file = open("report.txt", "a+")
+        file.write(line.strip() + " validate_line\n")
+        file.close()
+        return False
 
 
-def validate_date(date: str) -> bool:
-    ...
+def validate_date(line: str) -> bool:
+    if len(line.split()) == 5:
+        date = line.split()[4].strip()
+        only_numeric_date = []
+        for symbol in date:
+            if not symbol.isalpha():
+                only_numeric_date.append(symbol)
+        only_numeric_date = ''.join(only_numeric_date).strip()
+
+        if not (len(only_numeric_date) == 10 and only_numeric_date[4] == "-" and only_numeric_date[7] == "-"):
+            file = open("report.txt", "a+")
+            file.write(line.strip() + " validate_date\n")
+            file.close()
+            return False
+    else:
+        return False
 
 
 def check_data(filepath: str, validators: Iterable[Callable]) -> str:
-    ...
+    file = open(filepath, "r+")
+    lines = list(file.readlines())
+
+    for validator in validators:
+        for line in lines:
+            validator(line)
+    file.close()
+    return os.path.abspath("report.txt")
