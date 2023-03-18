@@ -24,7 +24,6 @@ def file_path():
             f.write(line + "\n")
 
     yield filepath
-    os.remove(os.path.abspath(filepath))
 
 
 def test_check_data(file_path):

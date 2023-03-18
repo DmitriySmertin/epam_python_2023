@@ -59,7 +59,7 @@ def check_data(filepath: str, validators: Iterable[Callable]) -> str:
     with open(filepath, "r+") as file:
         lines = list(file.readlines())
         file.close()
-    with open("report.txt", "a+") as report:
+    with open("report.txt", "w") as report:
         for line in lines:
             for validator in validators:
                 if not validator(line):
