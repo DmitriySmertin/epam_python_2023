@@ -34,11 +34,10 @@ from typing import Callable, Iterable, List
 
 
 def validate_line(line: str) -> bool:
+    file = open("report.txt", "a+")
     if len(line.split()) != 5:
-        file = open("report.txt", "a+")
         file.write(line.strip() + " validate_line\n")
-        file.close()
-        return False
+    file.close()
 
 
 def validate_date(line: str) -> bool:
@@ -46,25 +45,20 @@ def validate_date(line: str) -> bool:
         date = line.split()[4].strip()
         only_numeric_date = []
         for symbol in date:
-            if not symbol.isalpha():
+            if symbol.isnumeric() or symbol == "-":
                 only_numeric_date.append(symbol)
         only_numeric_date = ''.join(only_numeric_date).strip()
-
+        file = open("report.txt", "a+")
         if not (len(only_numeric_date) == 10 and only_numeric_date[4] == "-" and only_numeric_date[7] == "-"):
-            file = open("report.txt", "a+")
             file.write(line.strip() + " validate_date\n")
-            file.close()
-            return False
-    else:
-        return False
+        file.close()
 
 
 def check_data(filepath: str, validators: Iterable[Callable]) -> str:
     file = open(filepath, "r+")
     lines = list(file.readlines())
-
+    file.close()
     for validator in validators:
         for line in lines:
             validator(line)
-    file.close()
     return os.path.abspath("report.txt")
