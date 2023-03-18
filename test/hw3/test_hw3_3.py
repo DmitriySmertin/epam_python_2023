@@ -2,7 +2,7 @@ import inspect
 import string
 
 import pytest
-from hw3 import custom_range
+from src.hw3.hw3_3 import custom_range
 
 
 @pytest.mark.parametrize(

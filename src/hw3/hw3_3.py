@@ -24,3 +24,20 @@ assert = custom_range(string.ascii_lowercase, 'g', 'p') == ['g', 'h', 'i', 'j', 
 assert = custom_range(string.ascii_lowercase, 'p', 'g', -2) == ['p', 'n', 'l', 'j', 'h']
 
 """
+
+
+def custom_range(value: str, start=None, stop=None, step=None):
+    if start is not None and stop is None and step is None:
+        index = value.index(start)
+        value = list(value[:index])
+        return value
+    if start is not None and stop is not None and step is None:
+        index_start = value.index(start)
+        index_stop = value.index(stop)
+        value = list(value[index_start:index_stop])
+        return value
+    if start is not None and stop is not None and step is not None:
+        index_start = value.index(start)
+        index_stop = value.index(stop)
+        value = list(value[index_start:index_stop:step])
+        return value
