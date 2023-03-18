@@ -14,4 +14,4 @@ from collections.abc import Callable
 
 
 def cache(func: Callable) -> Callable:
-    ...
+    return func
