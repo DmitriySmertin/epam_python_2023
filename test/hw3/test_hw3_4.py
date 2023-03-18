@@ -1,6 +1,6 @@
 import pytest
 
-from hw4 import combinations
+from src.hw3.hw3_4 import combinations
 
 
 @pytest.mark.parametrize(
