@@ -24,19 +24,20 @@ assert = custom_range(string.ascii_lowercase, 'g', 'p') == ['g', 'h', 'i', 'j', 
 assert = custom_range(string.ascii_lowercase, 'p', 'g', -2) == ['p', 'n', 'l', 'j', 'h']
 
 """
+import inspect
 
 
-def custom_range(value, start=None, stop=None, step=None):
-    if start is not None and stop is None and step is None:
+def custom_range(value, start=inspect._empty, stop=inspect._empty, step=inspect._empty):
+    if start is not inspect._empty and stop is inspect._empty and step is inspect._empty:
         index = value.index(start)
         value = list(value[:index])
         return value
-    if start is not None and stop is not None and step is None:
+    if start is not inspect._empty and stop is not inspect._empty and step is inspect._empty:
         index_start = value.index(start)
         index_stop = value.index(stop)
         value = list(value[index_start:index_stop])
         return value
-    if start is not None and stop is not None and step is not None:
+    if start is not inspect._empty and stop is not inspect._empty and step is not inspect._empty:
         index_start = value.index(start)
         index_stop = value.index(stop)
         value = list(value[index_start:index_stop:step])
