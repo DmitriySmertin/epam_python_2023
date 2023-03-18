@@ -36,7 +36,7 @@ from typing import Callable, Iterable, List
 def validate_line(line: str) -> bool:
     with open("report.txt", "a+") as file:
         if len(line.split()) != 5:
-            file.write(line.strip() + " validate_line\n")
+            file.write(line.strip() + str(" " + validate_line.__name__) + "\n")
         file.close()
 
 
@@ -50,7 +50,7 @@ def validate_date(line: str) -> bool:
                     only_numeric_date.append(symbol)
             only_numeric_date = ''.join(only_numeric_date).strip()
             if not (len(only_numeric_date) == 10 and only_numeric_date[4] == "-" and only_numeric_date[7] == "-"):
-                file.write(line.strip() + " validate_date\n")
+                file.write(line.strip() + str(" " + validate_date.__name__) + "\n")
             file.close()
 
 
