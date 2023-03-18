@@ -34,31 +34,36 @@ from typing import Callable, Iterable, List
 
 
 def validate_line(line: str) -> bool:
-    with open("report.txt", "a+") as file:
-        if len(line.split()) != 5:
-            file.write(line.strip() + str(" " + validate_line.__name__) + "\n")
-        file.close()
+    if len(line.split()) != 5:
+        return False
+    return True
 
 
 def validate_date(line: str) -> bool:
-    with open("report.txt", "a+") as file:
-        if len(line.split()) == 5:
-            date = line.split()[4].strip()
-            only_numeric_date = []
-            for symbol in date:
-                if symbol.isnumeric() or symbol == "-":
-                    only_numeric_date.append(symbol)
-            only_numeric_date = ''.join(only_numeric_date).strip()
-            if not (len(only_numeric_date) == 10 and only_numeric_date[4] == "-" and only_numeric_date[7] == "-"):
-                file.write(line.strip() + str(" " + validate_date.__name__) + "\n")
-            file.close()
+    if validate_line(line):
+        date = line.split()[4].strip()
+        only_numeric_date = []
+        for symbol in date:
+            if symbol.isnumeric() or symbol == "-":
+                only_numeric_date.append(symbol)
+        if len(only_numeric_date) == 10 and only_numeric_date[4] == "-" and only_numeric_date[7] == "-":
+            return True
+        else:
+            return False
+
+    else:
+        return False
 
 
 def check_data(filepath: str, validators: Iterable[Callable]) -> str:
     with open(filepath, "r+") as file:
         lines = list(file.readlines())
         file.close()
-    for validator in validators:
+    with open("report.txt", "a+") as report:
         for line in lines:
-            validator(line)
-    return os.path.abspath("report.txt")
+            for validator in validators:
+                if not validator(line):
+                    report.write(line.strip() + str(" " + validator.__name__) + "\n")
+                    break
+        report.close()
+        return os.path.abspath("report.txt")
