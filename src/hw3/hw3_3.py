@@ -26,7 +26,7 @@ assert = custom_range(string.ascii_lowercase, 'p', 'g', -2) == ['p', 'n', 'l', '
 """
 
 
-def custom_range(value: str, start=None, stop=None, step=None):
+def custom_range(value, start=None, stop=None, step=None):
     if start is not None and stop is None and step is None:
         index = value.index(start)
         value = list(value[:index])
