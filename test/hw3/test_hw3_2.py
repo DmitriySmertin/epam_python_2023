@@ -1,10 +1,8 @@
-from functools import lru_cache
 
 from src.hw3.hw3_2 import cache
 
 
 def test_cache():
-    @lru_cache(maxsize=32)
     def func(a, b):
         return (a ** b) ** 2
 

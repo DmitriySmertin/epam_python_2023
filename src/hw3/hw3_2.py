@@ -11,7 +11,19 @@ val_2 = cache_func(*some)
 assert val_1 is val_2
 """
 from collections.abc import Callable
+from functools import wraps
 
 
 def cache(func: Callable) -> Callable:
-    return func
+    memo = {}
+
+    @wraps(func)
+    def wraper(*args):
+        try:
+            return memo[args]
+        except KeyError:
+            rv = func(*args)
+            memo[args] = rv
+            return rv
+
+    return wraper
