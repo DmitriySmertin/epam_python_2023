@@ -27,18 +27,18 @@ assert = custom_range(string.ascii_lowercase, 'p', 'g', -2) == ['p', 'n', 'l', '
 import inspect
 
 
-def custom_range(value, start=inspect._empty, stop=inspect._empty, step=inspect._empty):
-    if start is not inspect._empty and stop is inspect._empty and step is inspect._empty:
-        index = value.index(start)
+def custom_range(value, *args):
+    if len(args) == 1:
+        index = value.index(args[0])
         value = list(value[:index])
         return value
-    if start is not inspect._empty and stop is not inspect._empty and step is inspect._empty:
-        index_start = value.index(start)
-        index_stop = value.index(stop)
+    if len(args) == 2:
+        index_start = value.index(args[0])
+        index_stop = value.index(args[1])
         value = list(value[index_start:index_stop])
         return value
-    if start is not inspect._empty and stop is not inspect._empty and step is not inspect._empty:
-        index_start = value.index(start)
-        index_stop = value.index(stop)
-        value = list(value[index_start:index_stop:step])
+    if len(args) == 3:
+        index_start = value.index(args[0])
+        index_stop = value.index(args[1])
+        value = list(value[index_start:index_stop:args[2]])
         return value
