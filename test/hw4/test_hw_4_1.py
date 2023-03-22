@@ -1,6 +1,6 @@
 import pytest
 
-from hw1 import *
+from src.hw4.hw4_1 import *
 
 
 @pytest.fixture
