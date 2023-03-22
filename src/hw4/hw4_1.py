@@ -37,7 +37,7 @@ class Homework:
     def __init__(self, text_exercise: str, deadline: int):
         self.time_to_creation = datetime.now()
         self.text_exercise = text_exercise
-        self.homework_done[self] = text_exercise
+        self.homework_done[self] = "1"
         self.deadline = deadline
 
     def deadline_pass(self):
@@ -76,7 +76,7 @@ class Teacher:
     @classmethod
     def create_homework(cls, text_ex: str, deadline: int):
         hw = Homework(text_ex, deadline)
-        cls.homework_done[hw] = text_ex
+        cls.homework_done[hw] = hw.homework_done[hw]
         return hw
 
     @classmethod
