@@ -37,7 +37,7 @@ class Homework:
     def __init__(self, text_exercise: str, deadline: int):
         self.time_to_creation = datetime.now()
         self.text_exercise = text_exercise
-        self.homework_done = {self: text_exercise}
+        self.homework_done[self] = text_exercise
         self.deadline = deadline
 
     def deadline_pass(self):
@@ -51,11 +51,10 @@ class Student:
         self.first_name = first_name
 
     def do_homework(self, hw: Homework, solution: str):
-        compl_hw = CompleteHomework(self, hw, solution, hw.text_exercise, hw.deadline)
-        if not compl_hw.deadline_pass():
+        complete_hw = CompleteHomework(self, hw, solution, hw.text_exercise, hw.deadline)
+        if not complete_hw.deadline_pass():
             raise DeadlineError
-        compl_hw.homework_done = {compl_hw: solution}
-        return compl_hw
+        return complete_hw
 
 
 class CompleteHomework(Homework):
@@ -63,11 +62,12 @@ class CompleteHomework(Homework):
         super().__init__(text_exercise, deadline)
         self.author = student
         self.hw = hw
+        self.homework_done[self] = solution
         self.solution = solution
 
 
 class Teacher:
-    homework_done = None
+    homework_done = dict()
 
     def __init__(self, second_name, first_name):
         self.second_name = second_name
@@ -76,7 +76,7 @@ class Teacher:
     @classmethod
     def create_homework(cls, text_ex: str, deadline: int):
         hw = Homework(text_ex, deadline)
-        cls.homework_done = {hw: text_ex}
+        cls.homework_done[hw] = text_ex
         return hw
 
     @classmethod
@@ -85,5 +85,5 @@ class Teacher:
 
     @classmethod
     def check_homework(cls, comp_hw: CompleteHomework):
-        cls.homework_done.update({comp_hw: comp_hw.solution})
+        cls.homework_done[comp_hw] = comp_hw.solution
         return len(comp_hw.solution) > 5
