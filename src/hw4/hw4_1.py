@@ -32,12 +32,10 @@ class DeadlineError(Exception):
 
 
 class Homework:
-    homework_done = dict()
 
     def __init__(self, text_exercise: str, deadline: int):
         self.time_to_creation = datetime.now()
         self.text_exercise = text_exercise
-        self.homework_done[self] = "1"
         self.deadline = deadline
 
     def deadline_pass(self):
@@ -62,7 +60,6 @@ class CompleteHomework(Homework):
         super().__init__(text_exercise, deadline)
         self.author = student
         self.hw = hw
-        self.homework_done[self] = solution
         self.solution = solution
 
 
@@ -76,7 +73,7 @@ class Teacher:
     @classmethod
     def create_homework(cls, text_ex: str, deadline: int):
         hw = Homework(text_ex, deadline)
-        cls.homework_done[hw] = hw.homework_done[hw]
+        cls.homework_done[hw] = []
         return hw
 
     @classmethod
@@ -85,5 +82,7 @@ class Teacher:
 
     @classmethod
     def check_homework(cls, comp_hw: CompleteHomework):
+        if comp_hw not in cls.homework_done[comp_hw.hw] and len(comp_hw.solution) > 5:
+            cls.homework_done[comp_hw.hw].append(comp_hw)
         cls.homework_done[comp_hw] = comp_hw.solution
         return len(comp_hw.solution) > 5
