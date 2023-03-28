@@ -4,7 +4,13 @@
 # don't use third-party libraries
 
 def merge_elems(*elems):
-    pass
+    for elem in elems:
+        if isinstance(elem, (int, float)):
+            yield elem
+        elif isinstance(elem, str):
+            yield from elem
+        elif hasattr(elem, '__iter__'):
+            yield from merge_elems(*elem)
 
 # example input
 a = [1, 2, 3]
