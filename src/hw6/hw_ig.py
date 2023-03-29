@@ -27,7 +27,11 @@ for _ in merge_elems(a, b, c, d):
 # extra functionality: if arg function can't be applied, return element as is + text exception
 
 def map_like(fun, *elems):
-    pass
+    for elem in elems:
+        try:
+            yield fun(elem)
+        except Exception as e:
+            yield f"{elem}: {str(e)}"
 
 # example input
 a = [1, 2, 3]
