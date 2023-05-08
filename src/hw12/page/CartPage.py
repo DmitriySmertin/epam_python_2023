@@ -10,17 +10,9 @@ class CartPage:
     def getDescriptionsOfItem(self):
         return self.driver.find_elements(By.XPATH, LIST_DESCRIPTION_ITEM_LOCATOR)
 
-    @staticmethod
-    def getPrice(list: list):
-        return list[2].text
-
-    @staticmethod
-    def getName(list: list):
-        return list[1].text
-
     def checkNameAndPrice(self, name, price):
         listDescr = self.getDescriptionsOfItem()
-        actualPrice = "$" + self.getPrice(listDescr)
-        actualName = self.getName(listDescr)
+        actualName = listDescr[1]
+        actualPrice = "$" + listDescr[2]
         assert actualName == name
         assert actualPrice == price

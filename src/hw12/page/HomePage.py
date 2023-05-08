@@ -12,6 +12,7 @@ LOGIN_NAVIGATION_BTN_LOCATOR = "login2"
 LOGIN_BTN_LOCATOR = "//button[text()='Log in']"
 CATEGORY_LOCATOR = "//a[text()='%s']"
 CARD_BLOCK_LOCATOR = "//div[.//h5[text()='%s']]/preceding-sibling::a"
+CARD_BLOCK_NAME_LOCATOR = "//div[.//h5[text()='%s']]/h4[@class='card-title']/a"
 PRICES_ITEMS_IN_SHOP_LOCATOR = "//div[@id='tbodyid']//h5"
 MONITOR_CARD_LOCATOR = "//a[text()='Apple monitor 24']"
 HEADER_NAME = "//*[@class='name']"
@@ -43,7 +44,8 @@ class HomePage:
 
     @staticmethod
     def checkPresenceLoginField(driver, element_locator):
-        assert WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.ID, element_locator)))
+        assert WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.ID, element_locator)),
+                                              "The login field not visible")
 
     def openCategory(self, category):
         self.driver.refresh()
@@ -51,7 +53,7 @@ class HomePage:
         element = wait.until(EC.element_to_be_clickable((By.XPATH, CATEGORY_LOCATOR % category)))
         element.click()
 
-    def getHighPriceItemInShop(self):
+    def getHighPriceAndNameItemInShop(self):
         prices = list()
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.element_to_be_clickable((By.XPATH, MONITOR_CARD_LOCATOR)))
@@ -59,13 +61,18 @@ class HomePage:
         for i in prices_elements:
             prices.append(i.text)
         prices.sort(reverse=True)
+        price_of_high_price = prices[0]
+        name_of_high_price = self.driver.find_element(By.XPATH, CARD_BLOCK_NAME_LOCATOR % prices[0]).getText()
+        pair_name_price = dict(name=name_of_high_price, price=price_of_high_price)
         self.driver.find_element(By.XPATH, CARD_BLOCK_LOCATOR % prices[0]).click()
-        return prices[0]
+        return pair_name_price
 
     def checkNameAndPrice(self, name, price):
         self.driver.refresh()
-        assert self.driver.find_element(By.XPATH, HEADER_NAME).text == name
-        assert self.driver.find_element(By.XPATH, HEADER_PRICE).text.replace(" *includes tax", "") == price
+        assert self.driver.find_element(By.XPATH, HEADER_NAME).text == name, \
+            f'The name of product: not same expected name: {name}'
+        assert self.driver.find_element(By.XPATH, HEADER_PRICE).text.replace(" *includes tax", "") == price, \
+            f'The price of product: not same expected price: ${price}'
 
     def openCart(self):
         wait = WebDriverWait(self.driver, 10)
