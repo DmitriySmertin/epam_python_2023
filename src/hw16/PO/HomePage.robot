@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation   Its page objct home page with keywords and variables
+Documentation   This is the page object of the home page with keywords and variables
 Library         SeleniumLibrary
 Library         ../helper/LoginHelper.py
 Library         ../helper/ShopHelper.py

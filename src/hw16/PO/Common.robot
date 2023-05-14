@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation   Its generic robot file, necessary for all page objects
+Documentation   This is common robot file, with necessary part for all page objects and have common keywords
 Library         SeleniumLibrary
 
 *** Variables ***

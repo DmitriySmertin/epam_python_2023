@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation   Its page objct cart of product with keywords and variables
+Documentation   This is the page object of a product card with keywords and variables
 Library         SeleniumLibrary
 
 *** Variables ***
